@@ -20,3 +20,7 @@ $--border-color-extra-light: $color-main-90;
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
 
 @import '~element-ui/packages/theme-chalk/src/index';
+
+.el-form--label-top .el-form-item__label {
+    padding-bottom: 0;
+}

@@ -40,18 +40,20 @@ export interface LoginFormModel {
     password: string;
 }
 
-@Component({})
+@Component({
+    components: { TransitionExpandHeight }
+})
 export default class LoginForm extends Vue {
     @Prop() loading!: boolean;
-    error = false; //FIXME: стор
+    error = false; //FIXME: в стор
 
     form: LoginFormModel = {
         login: '',
-        password: '',
+        password: ''
     };
 
     submit() {
-        this.error = true; //FIXME: стор
+        this.error = true;
         (this.$refs['form'] as ElForm).validate((valid: boolean) => {
             if (valid) this.$emit('submit', this.form);
             else return false;
