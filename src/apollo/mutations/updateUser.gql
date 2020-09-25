@@ -1,0 +1,6 @@
+mutation updateCurrentUser($name: String!, $email: String!) {
+    updateCurrentUser(input: { name: $name, email: $email }) {
+        name
+        email
+    }
+}

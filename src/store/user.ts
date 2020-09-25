@@ -28,6 +28,20 @@ export default {
                 .then((data: GQLResponse) => commit('SET_USER', data.data.currentUser))
                 .catch(() => router.push({ name: 'login' }));
             commit('SET_LOADING', false);
+        },
+        UPDATE: async ({ commit, state }, payload: Partial<User>) => {
+            commit('SET_LOADING', true);
+            await apolloClient
+                .mutate({
+                    mutation: require('../apollo/mutations/updateUser.gql'),
+                    variables: { ...payload }
+                })
+                .then(() => {
+                    commit('SET_USER', { ...state.user, ...payload });
+                    router.push({ name: 'profile-info' });
+                })
+                .catch(() => router.push({ name: 'login' }));
+            commit('SET_LOADING', false);
         }
     },
     mutations: {

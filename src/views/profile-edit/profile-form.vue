@@ -6,6 +6,7 @@
         label-width="120px"
         label-position="top"
         :hide-required-asterisk="true"
+        v-loading="loading"
     >
         <el-form-item
             label="Name"
@@ -34,16 +35,26 @@
 </template>
 
 <script lang="ts">
+import { User } from '@/types/user';
 import { ElForm } from 'element-ui/types/form';
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component({})
 export default class ProfileForm extends Vue {
-    loading = false;
-    form = {
+    @Prop() loading!: boolean;
+    @Prop() user!: User;
+
+    form: Partial<User> = {
         name: '',
         email: '',
     };
+
+    @Watch('user')
+    onUserChanged(user: User) {
+        const { login, ...userRest } = user;
+        this.form = { ...userRest };
+    }
+
     save() {
         (this.$refs['form'] as ElForm).validate((valid: boolean) => {
             if (valid) this.$emit('save', this.form);
