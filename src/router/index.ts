@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
+import { AUTH_TOKEN } from '../apollo/vue-apollo';
 
 Vue.use(VueRouter);
 
 const routes: RouteConfig[] = [
     {
         path: '/',
-        redirect: '/login'
+        redirect: '/profile'
     },
     {
         path: '/login',
@@ -19,7 +20,6 @@ const routes: RouteConfig[] = [
     {
         path: '/profile',
         name: 'profile-info',
-        // TIP: используем ленивую загрузку маршрутов
         component: () => import(/* webpackChunkName: "profile-info" */ '@views/profile-info/_index.vue'),
         meta: {
             title: 'Your profile'
@@ -47,6 +47,12 @@ const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
     routes
+});
+
+router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem(AUTH_TOKEN);
+    if (!to.meta.isPublic && !token) next({ name: 'login' });
+    else next();
 });
 
 export default router;
