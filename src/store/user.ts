@@ -19,6 +19,7 @@ export default {
     },
     getters: {
         USER: (state: State) => state.user,
+        USER_NAME: (state: State) => state.user.name || '',
         LOADING: (state: State) => state.loading
     },
     actions: {

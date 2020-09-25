@@ -4,7 +4,7 @@
             <div class="header__title">{{ navigationTitle }}</div>
             <div class="header__user">
                 <i class="el-icon-user-solid"></i>
-                UserName
+                {{ userName }}
             </div>
             <router-link class="header__logout" to="/login">Log Out</router-link>
         </div>
@@ -13,8 +13,15 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { mapGetters } from 'vuex';
 
-@Component({})
+@Component({
+    computed: {
+        ...mapGetters({
+            userName: 'user/USER_NAME',
+        }),
+    },
+})
 export default class AppHeader extends Vue {
     get navigationTitle() {
         return this.$route.meta.title;
