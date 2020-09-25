@@ -1,19 +1,23 @@
 <template>
-    <div class="info">
+    <div class="info" v-loading="loading">
         <div class="info__title">Login</div>
-        <div class="info__data">User</div>
+        <div class="info__data">{{ user.login }}</div>
         <div class="info__title">Name</div>
-        <div class="info__data">User</div>
+        <div class="info__data">{{ user.name }}</div>
         <div class="info__title">Email</div>
-        <div class="info__data">user@user.com</div>
+        <div class="info__data">{{ user.email }}</div>
     </div>
-</template>
+</template> 
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { User } from '@/types/user';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({})
-export default class ProfileData extends Vue {}
+export default class ProfileData extends Vue {
+    @Prop() loading!: boolean;
+    @Prop() user!: User;
+}
 </script>
 
 <style scoped lang="scss">

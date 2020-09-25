@@ -1,7 +1,7 @@
 <template>
     <div class="profile">
         <profile-avatar />
-        <profile-data class="profile__info" />
+        <profile-data :user="user" :loading="loading" class="profile__info" />
         <div class="profile__tools">
             <router-link to="/profile/edit">
                 <el-button icon="el-icon-edit" type="info">Edit Profile</el-button>
@@ -12,13 +12,24 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { mapGetters } from 'vuex';
 import ProfileAvatar from './profile-avatar.vue';
 import ProfileData from './profile-data.vue';
 
 @Component({
     components: { ProfileAvatar, ProfileData },
+    computed: {
+        ...mapGetters({
+            user: 'user/USER',
+            loading: 'user/LOADING',
+        }),
+    },
 })
-export default class ProfileInfo extends Vue {}
+export default class ProfileInfo extends Vue {
+    mounted() {
+        this.$store.dispatch('user/GET');
+    }
+}
 </script>
 
 <style scoped lang="scss">

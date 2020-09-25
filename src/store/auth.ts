@@ -37,9 +37,7 @@ export default {
                     commit('SET_ERROR', false);
                     const token = data.data.auth;
                     apolloLogin(apolloClient, token);
-                    router.push({
-                        name: 'profile-info'
-                    });
+                    router.push({ name: 'profile-info' });
                 })
                 .catch(() => commit('SET_ERROR', true));
             commit('SET_LOADING', false);
