@@ -32,28 +32,23 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { authModel } from '@/store/auth';
 import { ElForm } from 'element-ui/types/form';
 import TransitionExpandHeight from '@/components/transitions/expand-height.vue';
 
-export interface LoginFormModel {
-    login: string;
-    password: string;
-}
-
 @Component({
-    components: { TransitionExpandHeight }
+    components: { TransitionExpandHeight },
 })
 export default class LoginForm extends Vue {
     @Prop() loading!: boolean;
-    error = false; //FIXME: в стор
+    @Prop() error!: boolean;
 
-    form: LoginFormModel = {
+    form: authModel = {
         login: '',
-        password: ''
+        password: '',
     };
 
     submit() {
-        this.error = true;
         (this.$refs['form'] as ElForm).validate((valid: boolean) => {
             if (valid) this.$emit('submit', this.form);
             else return false;
