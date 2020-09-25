@@ -11,11 +11,12 @@
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "sourceMap": true,
+        "noImplicitAny": false,
+        "allowJs": true,
         "baseUrl": ".",
         "types": ["webpack-env"],
         "paths": {
             "@/*": ["src/*"],
-            // TIP: настройка коротких путей
             "@views/*": ["src/views/*"]
         },
         "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
