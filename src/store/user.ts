@@ -4,6 +4,7 @@ import router from '@/router';
 import { apolloClient } from '../apollo/vue-apollo';
 import { GQLResponse } from '@/types/response';
 import { User } from '@/types/user';
+import { Notification } from 'element-ui';
 
 export interface State {
     user: User;
@@ -26,7 +27,7 @@ export default {
             await apolloClient
                 .mutate({ mutation: require('../apollo/queries/user.gql') })
                 .then((data: GQLResponse) => commit('SET_USER', data.data.currentUser))
-                .catch(() => router.push({ name: 'login' }));
+                .catch(() => onError());
             commit('SET_LOADING', false);
         },
         UPDATE: async ({ commit, state }, payload: Partial<User>) => {
@@ -37,10 +38,14 @@ export default {
                     variables: { ...payload }
                 })
                 .then(() => {
+                    Notification.success({
+                        title: 'Success',
+                        message: `User ${payload.name} updated successfully`
+                    });
                     commit('SET_USER', { ...state.user, ...payload });
                     router.push({ name: 'profile-info' });
                 })
-                .catch(() => router.push({ name: 'login' }));
+                .catch(() => onError());
             commit('SET_LOADING', false);
         }
     },
@@ -53,3 +58,11 @@ export default {
         }
     }
 } as Module<State, RootState>;
+
+function onError() {
+    Notification.error({
+        title: 'Error',
+        message: 'Something went wrong'
+    });
+    router.push({ name: 'login' });
+}
