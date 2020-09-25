@@ -1,0 +1,3 @@
+mutation auth($login: String!, $password: String!) {
+    auth(input: { login: $login, password: $password })
+}
